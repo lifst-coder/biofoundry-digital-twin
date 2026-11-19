@@ -1,2 +1,28 @@
-# biofoundry-digital-twin
-교육용 바이오파운더리 디지털 트윈 - Interactive Virtual Bioprocess &amp; Laboratory Platform
+# 바이오파운더리 디지털 트윈
+
+교육 및 비민감 연구용 인터랙티브 가상 바이오공정 & 실험실 플랫폼.
+
+## 특징
+- React + TypeScript
+- 시뮬레이션 엔진과 UI 분리
+- 가상 시설 구역 탐색
+- 교육용 발효조 시뮬레이터 (단순 Monod 모델)
+- 배치 공정 단계 관리
+- 품질관리, 실험 비교, 분석, CSV 입출력
+- 한국어 UI
+- 모든 결과는 교육용이며 실제 공정 예측이나 GMP 인증을 대체하지 않음
+
+## 실행
+```bash
+npm install
+npm run dev
+```
+
+## 빌드
+```bash
+npm run build
+# dist/ 폴더를 정적 호스팅
+```
+
+## 모델 한계
+단순화된 비병원성 배양 모델. 실제 생물학적 공정 예측에 사용하지 마십시오.
