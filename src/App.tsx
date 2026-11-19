@@ -1,13 +1,15 @@
 import { useProcessStore } from './store/useProcessStore';
 import { FacilityMap } from './components/FacilityMap';
-import { Bioreactor } from './components/Bioreactor';
 import { ProcessTimeline } from './components/ProcessTimeline';
-import { QCPanel } from './components/QCPanel';
-import { ExperimentStudio } from './components/ExperimentStudio';
-import { Analytics } from './components/Analytics';
-import { DataManager } from './components/DataManager';
-import { useState, useEffect } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import { Plus } from 'lucide-react';
+
+// Chart and CSV tabs load on demand so the first screen does not pay for recharts and papaparse.
+const Bioreactor = lazy(() => import('./components/Bioreactor').then((m) => ({ default: m.Bioreactor })));
+const QCPanel = lazy(() => import('./components/QCPanel').then((m) => ({ default: m.QCPanel })));
+const ExperimentStudio = lazy(() => import('./components/ExperimentStudio').then((m) => ({ default: m.ExperimentStudio })));
+const Analytics = lazy(() => import('./components/Analytics').then((m) => ({ default: m.Analytics })));
+const DataManager = lazy(() => import('./components/DataManager').then((m) => ({ default: m.DataManager })));
 
 const TABS = [
   { id: 'facility', label: '시설' },
@@ -84,13 +86,15 @@ export default function App() {
       </nav>
 
       <main>
-        {tab === 'facility' && <FacilityMap />}
-        {tab === 'bioreactor' && <Bioreactor />}
-        {tab === 'process' && <ProcessTimeline />}
-        {tab === 'qc' && <QCPanel />}
-        {tab === 'experiment' && <ExperimentStudio />}
-        {tab === 'analytics' && <Analytics />}
-        {tab === 'data' && <DataManager />}
+        <Suspense fallback={<div className="p-6 text-slate-400">불러오는 중…</div>}>
+          {tab === 'facility' && <FacilityMap />}
+          {tab === 'bioreactor' && <Bioreactor />}
+          {tab === 'process' && <ProcessTimeline />}
+          {tab === 'qc' && <QCPanel />}
+          {tab === 'experiment' && <ExperimentStudio />}
+          {tab === 'analytics' && <Analytics />}
+          {tab === 'data' && <DataManager />}
+        </Suspense>
       </main>
 
       <footer className="border-t border-slate-800 px-6 py-3 text-xs text-slate-500 text-center">
